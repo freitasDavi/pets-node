@@ -8,9 +8,19 @@ export async function ProductRoutes(server: FastifyInstance) {
     {
       preHandler: [server.authenticate],
       schema: {
+        description: "post some data",
+        tags: ["Products"],
+        summary: "create",
         body: $ref("createProductSchema"),
         response: {
           201: $ref("productResponse"),
+          default: {
+            description: "Default response",
+            type: "object",
+            properties: {
+              foo: { type: "string" },
+            },
+          },
         },
       },
     },
@@ -22,8 +32,18 @@ export async function ProductRoutes(server: FastifyInstance) {
     {
       preHandler: [server.authenticate],
       schema: {
+        description: "post some data",
+        tags: ["Products"],
+        summary: "get all",
         response: {
           200: $ref("productsResponseSchema"),
+          default: {
+            description: "Default response",
+            type: "object",
+            properties: {
+              foo: { type: "string" },
+            },
+          },
         },
       },
     },

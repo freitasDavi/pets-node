@@ -11,6 +11,9 @@ async function UserRoutes(server: FastifyInstance) {
     "/",
     {
       schema: {
+        tags: ["User"],
+        description: "create an user",
+        summary: "create",
         body: $ref("createUserSchema"),
         response: {
           201: $ref("createUserResponseSchema"),
@@ -24,9 +27,45 @@ async function UserRoutes(server: FastifyInstance) {
     "/login",
     {
       schema: {
-        body: $ref("loginSchema"),
+        description: "login",
+        tags: ["User"],
+        summary: "qwerty",
+        params: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "user id",
+            },
+          },
+        },
+        body: {
+          type: "object",
+          properties: {
+            hello: { type: "string" },
+            obj: {
+              type: "object",
+              properties: {
+                some: { type: "string" },
+              },
+            },
+          },
+        },
         response: {
-          200: $ref("loginResponseSchema"),
+          201: {
+            description: "Successful response",
+            type: "object",
+            properties: {
+              hello: { type: "string" },
+            },
+          },
+          default: {
+            description: "Default response",
+            type: "object",
+            properties: {
+              foo: { type: "string" },
+            },
+          },
         },
       },
     },
@@ -37,6 +76,36 @@ async function UserRoutes(server: FastifyInstance) {
     "/",
     {
       preHandler: [server.authenticate],
+      schema: {
+        description: "Get data",
+        tags: ["User"],
+        summary: "get",
+        params: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "user id",
+            },
+          },
+        },
+        response: {
+          201: {
+            description: "Successful response",
+            type: "object",
+            properties: {
+              hello: { type: "string" },
+            },
+          },
+          default: {
+            description: "Default response",
+            type: "object",
+            properties: {
+              foo: { type: "string" },
+            },
+          },
+        },
+      },
     },
     getUsersHandler
   );
